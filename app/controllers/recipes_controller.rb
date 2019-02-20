@@ -12,8 +12,17 @@ class RecipesController < ApplicationController
   end
 
   def create
-    @recipe = Recipe.create(recipe_params)
-    redirect_to @recipe
+    @recipe = Recipe.new(recipe_params)
+    if @recipe.save 
+      redirect_to @recipe
+    elsif @recipe.cook_time && @recipe.cook_time <= 0
+      flash[:alert] = 'O tempo de preparo deve ser maior que zero'
+      render 'new'
+    else
+      flash[:alert] = 'Você deve informar todos os dados da receita'
+      render 'new'
+    end
+
   end
 
   def edit
@@ -22,8 +31,12 @@ class RecipesController < ApplicationController
 
   def update
     @recipe = Recipe.find(params[:id])
-    @recipe.update(recipe_params)
-    redirect_to @recipe
+    if @recipe.update(recipe_params)
+      redirect_to @recipe
+    else 
+      flash[:alert] = 'Você deve informar todos os dados da receita'
+      render 'edit'
+    end
   end
 
   private
