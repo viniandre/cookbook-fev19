@@ -8,8 +8,8 @@
     <p><%= f.text_field :title %></p>
     <%= f.label :recipe_type_id, 'Tipo da Receita' %>
     <p><%= f.collection_select :recipe_type_id, @recipe_types, :id, :name %></p>
-    <%= f.label :cuisine, 'Cozinha' %>
-    <p><%= f.text_field :cuisine %></p>
+    <%= f.label :cuisine_id, 'Cozinha' %>
+    <p><%= f.collection_select :cuisine_id, @cuisines, :id, :name %></p>
     <%= f.label :difficulty, 'Dificuldade' %>
     <p><%= f.text_field :difficulty %></p>
     <%= f.label :cook_time, 'Tempo de Preparo' %>
