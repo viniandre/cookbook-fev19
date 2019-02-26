@@ -10,6 +10,12 @@
   </head>
 
   <body>
+    <%= form_tag search_recipes_path, method: :get do %>
+      <%= label_tag :search_term, 'Busca' %>
+      <%= text_field_tag :search_term %>
+      <%= submit_tag 'Pesquisar'%>
+    <%end%>
+
     <%= yield %>
   </body>
 </html>
