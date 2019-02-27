@@ -57,11 +57,23 @@ class RecipesController < ApplicationController
       flash[:alert] = 'Nenhuma receita encontrada'
     end
   end
+
+  def favorite
+    @recipe = Recipe.find(params[:id])
+    @recipe.update(favorite: true)
+    redirect_to root_path
+  end
+
+  def unfavorite
+    @recipe = Recipe.find(params[:id])
+    @recipe.update(favorite: false)
+    redirect_to root_path
+  end
   
   private
 
   def recipe_params
     params.require(:recipe).permit(:title, :recipe_type_id, :cuisine_id, :difficulty,
-                                   :cook_time, :ingredients, :cook_method, :photo)
+                                   :cook_time, :ingredients, :cook_method, :photo, :favorite)
   end
 end
