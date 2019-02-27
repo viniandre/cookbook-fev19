@@ -10,11 +10,24 @@
   </head>
 
   <body>
+    <nav>
+      <% if user_signed_in? %>
+        <p>Bem vindo, vini@aol.com.br.</p>
+        <p><%= link_to 'Sair', destroy_user_session_path, method: :delete %></p>
+      <% else %>
+        <%= link_to 'Entrar', new_user_session_path %>
+      <% end %>
+    </nav>
+
+
+
     <%= form_tag search_recipes_path, method: :get do %>
       <%= label_tag :search_term, 'Busca' %>
       <%= text_field_tag :search_term %>
       <%= submit_tag 'Pesquisar'%>
     <%end%>
+    <p class="notice"><%= notice %></p>
+    <p class="alert"><%= alert %></p>
 
     <%= yield %>
   </body>
