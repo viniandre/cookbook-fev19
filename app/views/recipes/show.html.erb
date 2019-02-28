@@ -12,6 +12,7 @@
 <p><%= @recipe.ingredients %></p>
 <h3>Como Preparar</h3>
 <p><%= @recipe.cook_method %></p>
+<p><%= "Receita cadastrada por: #{@recipe.user.email}" %></p>
 
 <% if @recipe.favorite == false %>
   <%= link_to 'Favoritar', favorite_recipe_path %>

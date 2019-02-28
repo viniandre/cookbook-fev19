@@ -12,7 +12,7 @@
   <body>
     <nav>
       <% if user_signed_in? %>
-        <p>Bem vindo, vini@aol.com.br.</p>
+        <p>Bem vindo, <%= current_user.email %>.</p>
         <p><%= link_to 'Sair', destroy_user_session_path, method: :delete %></p>
       <% else %>
         <%= link_to 'Entrar', new_user_session_path %>

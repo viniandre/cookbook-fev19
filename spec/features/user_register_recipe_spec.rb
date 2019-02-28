@@ -6,9 +6,14 @@ feature 'User register recipe' do
     RecipeType.create(name: 'Sobremesa')
     RecipeType.create(name: 'Entrada')
     Cuisine.create(name: 'Arabe')
+    User.create!(email: 'vini@aol.com.br', password: '123456')
 
     # simula a ação do usuário
     visit root_path
+    click_on 'Entrar'
+    fill_in 'Email', with: 'vini@aol.com.br'
+    fill_in 'Senha', with: '123456'
+    click_on 'Enviar'
     click_on 'Enviar uma receita'
 
     fill_in 'Título', with: 'Tabule'
@@ -34,11 +39,18 @@ feature 'User register recipe' do
     expect(page).to have_css('h3', text: 'Como Preparar')
     expect(page).to have_css('p', text:  'Misturar tudo e servir. Adicione limão a gosto.')
     expect(page).to have_css('img[src*="Tabule.jpg"]')
+    expect(page).to have_css('p', text: "Receita cadastrada por: vini@aol.com.br")
   end
 
   scenario 'and must fill in all fields' do
+    User.create!(email: 'vini@aol.com.br', password: '123456')
+
     # simula a ação do usuário
     visit root_path
+    click_on 'Entrar'
+    fill_in 'Email', with: 'vini@aol.com.br'
+    fill_in 'Senha', with: '123456'
+    click_on 'Enviar'
     click_on 'Enviar uma receita'
 
     fill_in 'Título', with: ''
@@ -50,5 +62,20 @@ feature 'User register recipe' do
 
 
     expect(page).to have_content('Não foi possível salvar a receita')
+  end
+
+  scenario 'and must be logged in' do
+
+    visit root_path
+    click_on 'Enviar uma receita'
+
+    expect(current_path).to eq new_user_session_path
+
+  end
+
+  scenario 'from route path' do
+    visit new_recipe_path
+    
+    expect(current_path).to eq new_user_session_path
   end
 end

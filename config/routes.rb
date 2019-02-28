@@ -2,8 +2,8 @@ Rails.application.routes.draw do
   
   devise_for :users
   root to: 'recipes#index' 
-
-  resources :recipes do 
+  get 'my_recipes', to: 'recipes#my_recipes'
+  resources :recipes do
     get 'search', on: :collection
     get 'favorite', on: :member
     delete 'favorite', to: 'recipes#unfavorite', on: :member

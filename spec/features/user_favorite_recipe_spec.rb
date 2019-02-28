@@ -3,16 +3,21 @@ require 'rails_helper'
 feature 'User mark recipe as' do
   scenario 'favorite' do
     #cria os dados
+    user = User.create!(email: 'vini@aol.com.br', password: '123456')
     recipe_type = RecipeType.create(name: 'Sobremesa')
     cuisine = Cuisine.create(name: 'Brasileira')
     favorite_recipe = Recipe.create(title: 'Bolo de cenoura', difficulty: 'Médio',
                                     recipe_type: recipe_type, cuisine: cuisine,
                                     cook_time: 50, ingredients: 'Farinha, açucar, cenoura',
                                     cook_method: 'Cozinhe a cenoura, corte em pedaços pequenos, misture com o restante dos ingredientes',
-                                    favorite: false)
+                                    favorite: false, user: user)
 
     #ação do usuario
     visit root_path
+    click_on 'Entrar'
+    fill_in 'Email', with: 'vini@aol.com.br'
+    fill_in 'Senha', with: '123456'
+    click_on 'Enviar'
     click_on 'Bolo de cenoura'
     click_on 'Favoritar'
 
@@ -29,16 +34,24 @@ feature 'User mark recipe as' do
   
   scenario 'unfavorite' do
     #cria os dados
+    user = User.create!(email: 'vini@aol.com.br', password: '123456')
     recipe_type = RecipeType.create(name: 'Sobremesa')
     cuisine = Cuisine.create(name: 'Brasileira')
     recipe = Recipe.create(title: 'Bolo de cenoura', difficulty: 'Médio',
                   recipe_type: recipe_type, cuisine: cuisine,
                   cook_time: 50, ingredients: 'Farinha, açucar, cenoura',
                   cook_method: 'Cozinhe a cenoura, corte em pedaços pequenos, misture com o restante dos ingredientes',
-                  favorite: true)
+                  favorite: true, user: user)
 
     #ação do usuario
-    visit recipe_path(recipe)
+    visit root_path
+    click_on 'Entrar'
+    fill_in 'Email', with: 'vini@aol.com.br'
+    fill_in 'Senha', with: '123456'
+    click_on 'Enviar'
+    within 'div.favoritas' do
+      click_on 'Bolo de cenoura'
+    end
     click_on 'Desfavoritar'
     click_on 'Bolo de cenoura'
     
