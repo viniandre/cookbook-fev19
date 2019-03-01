@@ -4,10 +4,12 @@ class RecipesController < ApplicationController
   
   def index
     @recipes = Recipe.all
+    @last_recipes = Recipe.last(6)
   end
 
   def show
     @recipe = Recipe.find(params[:id])
+    @user_lists = current_user.lists
   end
 
   def new
@@ -19,6 +21,7 @@ class RecipesController < ApplicationController
   def create
     @recipe = Recipe.new(recipe_params)
     @recipe.user = current_user
+    @recipe.favorite = false
     if @recipe.save
       redirect_to @recipe
     else
@@ -77,7 +80,15 @@ class RecipesController < ApplicationController
   def my_recipes
     @recipes = current_user.recipes
   end
-  
+
+  def add_list
+    @list = List.find(params[:list_id])
+    recipe = Recipe.find(params[:id])
+    ListRecipe.create!(list: @list, recipe: recipe)
+    flash[:notice] = 'Receita adicionada com sucesso'
+    redirect_to @list
+  end
+
   private
 
   def recipe_params

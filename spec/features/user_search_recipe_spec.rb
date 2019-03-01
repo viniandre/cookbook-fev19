@@ -84,4 +84,6 @@ feature 'User search recipe' do
     expect(page).to have_css('h1', text: 'Bolo de banana')
     expect(page).not_to have_css('h1', text: 'Pizza')
   end
+
+  
 end

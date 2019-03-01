@@ -14,6 +14,13 @@
 <p><%= @recipe.cook_method %></p>
 <p><%= "Receita cadastrada por: #{@recipe.user.email}" %></p>
 
+
+<%= form_tag add_list_recipe_path(@recipe), method: :post do %>
+  <%= label_tag :list_id, 'Listas' %>
+  <%= select_tag :list_id, options_from_collection_for_select(@user_lists, :id, :name) %>
+  <%= submit_tag 'Adicionar' %>
+<% end %>
+
 <% if @recipe.favorite == false %>
   <%= link_to 'Favoritar', favorite_recipe_path %>
 <% else %>
@@ -21,4 +28,6 @@
 <% end %>
 <%= link_to 'Excluir', recipe_path, method: :delete %>
 <%= link_to 'Editar', edit_recipe_path %>
+
 <%= link_to 'Voltar', root_path %>
+
