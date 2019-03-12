@@ -23,6 +23,8 @@ class RecipesController < ApplicationController
     @recipe.user = current_user
     @recipe.favorite = false
     if @recipe.save
+      #RecipeMailer.with(recipe_id: @recipe.id).notify_new_recipe
+      RecipesMailer.notify_new_recipe(@recipe.id)
       redirect_to @recipe
     else
       flash[:alert] = 'Não foi possível salvar a receita'
